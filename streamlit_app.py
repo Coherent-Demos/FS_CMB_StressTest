@@ -109,6 +109,7 @@ with st.expander("**Balance Sheet**", expanded=True):
    with col13:
       st.info("Liabilities")
       liabilities_placeholder = st.empty()
+
 with st.expander("**Credit Risk**"):
    tab1, tab2, tab3, tab4 = st.tabs(['Underprovisioning', 'Increase in NPL', 'Sectoral Shock to NPL', 'Large Exposure'])
 
@@ -337,10 +338,9 @@ config_CR1loanvalues = {
 generate_bar_chart(fig_CR1loanvalues, df_CR1loanvalues, config_CR1loanvalues)
 CR1loanvalues_placeholder.plotly_chart(fig_CR1loanvalues, use_container_width=True)
 
-
-CR1CARB_value = outputs['CR1_CAR'][0]['Baseline']
-CR1CARPS_value = outputs['CR1_CAR'][0]['Post Shock']
-CR1CARdelta = CR1CARPS_value - CR1CARB_value
+CR1CARB_value = "{:,.2f}".format(outputs['CR1_CAR'][0]['Baseline'])
+CR1CARPS_value = "{:,.2f}".format(outputs['CR1_CAR'][0]['Post Shock'])
+CR1CARdelta = "{:,.2f}".format(outputs['CR1_CAR'][0]['Post Shock'] - outputs['CR1_CAR'][0]['Baseline'])
 
 CR1CARB.metric(label="CAR Baseline", value=CR1CARB_value)
 CR1CARPS.metric(label="CAR Post-Shock", value=CR1CARPS_value, delta=CR1CARdelta)
@@ -356,9 +356,9 @@ generate_bar_chart(fig_CR1assetquality, df_CR1assetquality, config_CR1assetquali
 CR1assetquality_placeholder.plotly_chart(fig_CR1assetquality, use_container_width=True)
 
 #CR2Data
-CR2CARB_value = outputs['CR2_CAR'][0]['Baseline']
-CR2CARPS_value = outputs['CR2_CAR'][0]['Post Shock']
-CR2CARdelta = CR2CARPS_value - CR2CARB_value
+CR2CARB_value = "{:,.2f}".format(outputs['CR2_CAR'][0]['Baseline'])
+CR2CARPS_value = "{:,.2f}".format(outputs['CR2_CAR'][0]['Post Shock'])
+CR2CARdelta = "{:,.2f}".format(outputs['CR2_CAR'][0]['Post Shock'] - outputs['CR2_CAR'][0]['Baseline'])
 
 CR2CARB.metric(label="CAR Baseline", value=CR2CARB_value)
 CR2CARPS.metric(label="CAR Post-Shock", value=CR2CARPS_value, delta=CR2CARdelta)
@@ -373,12 +373,12 @@ generate_bar_chart(fig_CR2assetvalues, df_CR2assetvalues, config_CR2assetvalues)
 CR2assetvalues_placeholder.plotly_chart(fig_CR2assetvalues, use_container_width=True)
 
 #CR3 Data
-CR3CARB_value = outputs['CR3_CAR'][0]['Baseline']
-CR3CARPS_value = outputs['CR3_CAR'][0]['Post Shock']
-CR3CARdelta = CR3CARPS_value - CR3CARB_value
-CR3NPLB_value = outputs['CR3_NPL'][0]['Baseline']
-CR3NPLPS_value = outputs['CR3_NPL'][0]['Post Shock']
-CR3NPLdelta = CR3NPLPS_value - CR3NPLB_value
+CR3CARB_value = "{:,.2f}".format(outputs['CR3_CAR'][0]['Baseline'])
+CR3CARPS_value = "{:,.2f}".format(outputs['CR3_CAR'][0]['Post Shock'])
+CR3CARdelta = "{:,.2f}".format(outputs['CR3_CAR'][0]['Post Shock'] - outputs['CR3_CAR'][0]['Baseline'])
+CR3NPLB_value = "{:,.2f}".format(outputs['CR3_NPL'][0]['Baseline'])
+CR3NPLPS_value = "{:,.2f}".format(outputs['CR3_NPL'][0]['Post Shock'])
+CR3NPLdelta = "{:,.2f}".format(outputs['CR3_NPL'][0]['Post Shock'] - outputs['CR3_NPL'][0]['Baseline'])
 
 CR3CARB.metric(label="CAR Baseline", value=CR3CARB_value)
 CR3CARPS.metric(label="CAR Post-Shock", value=CR3CARPS_value, delta=CR3CARdelta)
