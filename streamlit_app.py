@@ -87,6 +87,9 @@ def generate_line_chart(fig, data_df, config):
     fig.update_layout(title=config['title'])   
 
 # Start of UI
+image_path = "coherent-logo.png"
+st.image(image_path, caption="", width=32)
+
 st.write("## Banking Stress Test")
 
 defaultbank = 'SB1'
