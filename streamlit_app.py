@@ -14,7 +14,7 @@ import random
 import plotly.graph_objects as go
 
 @st.cache_data
-def callSparkModel(selectedbank, CR1, CR2, CR3, LR):
+def callSparkModel(selectedbank, CR1, CR2, CR3, LR, CR4, FX):
 
     url = "https://excel.uat.us.coherent.global/coherent/api/v3/folders/Spark FE Demos/services/banking-stress-test/Execute"
 
@@ -38,7 +38,12 @@ def callSparkModel(selectedbank, CR1, CR2, CR3, LR):
             "CR3Provis": CR3['Provis'],
             "LR_Domestic": LR['domesticcurrency'],
             "LR_Foreign": LR['foreigncurrency'],
-            "LR_AssetsAvailable": LR['assetsavailable']
+            "LR_AssetsAvailable": LR['assetsavailable'],
+            "CR4_LEtoNPL": CR4['letonpl'],
+            "CR4_Provisioning": CR4['leprovisioning'],
+            "FX_ChangeRate": FX['changerate'],
+            "FX_NewNPL": FX['depreciationtonpl'],
+            "FX_Provisioning": FX['fxprovisioning']
           }
        },
         "request_meta": {
@@ -159,10 +164,10 @@ with st.expander("**Credit Risk**"):
          st.write("Assumptions")
          increaseNPL = st.slider(
              'Assumed Increase in NPL',
-             0, 100, (20))
+             0, 100, (25))
          provisionNPL = st.slider(
              'Assumed provisioning of the new NPL (%)',
-             0, 100, (50))
+             0, 100, (25))
          st.text("‎")
       with col22:
          st.text("‎")  
@@ -187,28 +192,28 @@ with st.expander("**Credit Risk**"):
          st.write("Assumed shocks (% of performing loans in the sector becoming NPLs)")
          Agri = st.slider(
              'Agriculture',
-             0, 100, (20))
+             0, 100, (0))
          Manu = st.slider(
              'Manufacturing',
-             0, 100, (50))
+             0, 100, (0))
          Const = st.slider(
              'Construction',
-             0, 100, (20))
+             0, 100, (0))
          Trade = st.slider(
              'Trade',
-             0, 100, (50))
+             0, 100, (0))
          Tour = st.slider(
              'Tourism',
-             0, 100, (20))
+             0, 100, (0))
          Nonbank = st.slider(
              'Non-bank Financial',
-             0, 100, (50))
+             0, 100, (0))
          Other = st.slider(
              'Other',
-             0, 100, (20))
+             0, 100, (0))
          Provis = st.slider(
              'Assumed Provisioning Rate',
-             0, 100, (20))
+             0, 100, (0))
          st.text("‎")
       with col22:
          st.text("‎")  
@@ -229,7 +234,33 @@ with st.expander("**Credit Risk**"):
          CR3assetvalues_placeholder = st.empty()
 
    with tab4:
-      st.error("under construction")
+      st.text("‎") 
+      col20, col21, col22, col23, col24, = st.columns([1, 12, 2, 32, 1])
+      with col20:
+         st.text("‎") 
+      with col21:
+         st.write("Assumptions")
+         st.text("Largest Exposures")
+         CR4exposures_placeholder = st.empty()
+         letonpl = st.slider(
+             'Number of Large Exposures to NPL',
+             0, 5, (4))
+         leprovisioning = st.slider(
+             'Assumed Provisioning Rate',
+             0, 100, (100))
+         st.text("‎")
+      with col22:
+         st.text("‎")  
+      with col23:  
+         st.write("Post Shock Data")
+         st.markdown('***')
+         col231, col232 = st.columns([1,1])
+         with col231:
+            CR4CARB = st.empty()
+         with col232:
+            CR4CARPS = st.empty()
+         st.markdown('***')
+         CR4assetvalues_placeholder = st.empty()
 
 with st.expander("**Liquidity Risk**"):
       st.text("‎") 
@@ -255,10 +286,44 @@ with st.expander("**Liquidity Risk**"):
          st.markdown('***')
          LRisliquid = st.empty()
          st.markdown('***')
+         LRliquiditychart_placeholder = st.empty()
          LRliquiditytable_placeholder = st.empty()
 
 with st.expander("**FX Risk**"):
-      st.error("under construction")
+      st.text("‎") 
+      col20, col21, col22, col23, col24, = st.columns([1, 12, 2, 32, 1])
+      with col20:
+         st.text("‎") 
+      with col21:
+         st.write("Assumptions")
+         changerate = st.slider(
+             'Assumed Exchange Rate Change (%)',
+             0, 100, (55))
+         depreciationtonpl = st.slider(
+             '100 percent depreciation leads to x percent of FX loans becoming NPL. x=',
+             0, 100, (10))
+         fxprovisioning = st.slider(
+             'Assumed Provisioning of new NPL (%)',
+             0, 100, (50))
+         st.text("‎") 
+      with col22:
+         st.text("‎") 
+      with col23:  
+         st.write("Post-Shock Data")
+         st.markdown('***')
+         col231, col232 = st.columns([1,1])
+         with col231:
+            FXCARB = st.empty()
+         with col232:
+            FXCARPS = st.empty()
+         col231, col232 = st.columns([1,1])
+         with col231:
+            FXPOS = st.empty()
+         with col232:
+            FXLoan = st.empty()
+         st.markdown('***')
+         FXDirect_placeholder = st.empty()
+         FXIndirect_placeholder = st.empty()
 
 with st.expander("**Interest Risk**"):
       st.error("under construction")
@@ -292,7 +357,18 @@ LR = {
     'assetsavailable': assetsavailable
 }
 
-alldata = callSparkModel(selectedbank, CR1, CR2, CR3, LR)
+CR4 = {
+    'letonpl': letonpl,
+    'leprovisioning': leprovisioning
+}
+
+FX = {
+    'changerate': changerate,
+    'depreciationtonpl': depreciationtonpl,
+    'fxprovisioning': fxprovisioning
+}
+
+alldata = callSparkModel(selectedbank, CR1, CR2, CR3, LR, CR4, FX)
 outputs = alldata.json()['response_data']['outputs']
 
 #Assets Data
@@ -394,6 +470,25 @@ config_CR3assetvalues = {
 generate_bar_chart(fig_CR3assetvalues, df_CR3assetvalues, config_CR3assetvalues)
 CR3assetvalues_placeholder.plotly_chart(fig_CR3assetvalues, use_container_width=True)
 
+#CR4 Data
+CR4CARB_value = "{:,.2f}".format(outputs['CR4_CAR'][0]['Baseline'])
+CR4CARPS_value = "{:,.2f}".format(outputs['CR4_CAR'][0]['Post Shock'])
+CR4CARdelta = "{:,.2f}".format(outputs['CR4_CAR'][0]['Post Shock'] - outputs['CR4_CAR'][0]['Baseline'])
+
+CR4CARB.metric(label="CAR Baseline", value=CR4CARB_value)
+CR4CARPS.metric(label="CAR Post-Shock", value=CR4CARPS_value, delta=CR4CARdelta)
+
+df_CR4Exp = pd.DataFrame(outputs['CR4_Exposures'])
+df_CR4assetvalues = pd.DataFrame(outputs['CR4_AssetValues'])
+fig_CR4assetvalues = go.Figure()
+config_CR4assetvalues = {
+    'label_column': 'Asset Values (m$)',
+    'title': '      Asset Values (m$)'
+}
+generate_bar_chart(fig_CR4assetvalues, df_CR4assetvalues, config_CR4assetvalues)
+CR4assetvalues_placeholder.plotly_chart(fig_CR4assetvalues, use_container_width=True)
+CR4exposures_placeholder.dataframe(df_CR4Exp)
+
 #LR Data
 LRisliquid_value = outputs['LR_LiquidityFiveDays']
 LRisliquid.metric(label="Liquidity in 5 days", value=LRisliquid_value)
@@ -401,8 +496,44 @@ LRisliquid.metric(label="Liquidity in 5 days", value=LRisliquid_value)
 df_LRliquiditytable = pd.DataFrame(outputs['LiquidutyTable2'])
 fig_LRliquiditytable = go.Figure()
 config_LRliquiditytable = {
-    'x_column': 'Daily Values (m$)',
-    'title': '      Daily Values (m$)'
+    'x_column': 'Simple liquidity test (run on all banks, fire-sale of assets)',
+    'title': '      Simple liquidity test (run on all banks, fire-sale of assets)'
 }
 generate_line_chart(fig_LRliquiditytable, df_LRliquiditytable, config_LRliquiditytable)
-LRliquiditytable_placeholder.plotly_chart(fig_LRliquiditytable, use_container_width=True)
+LRliquiditychart_placeholder.plotly_chart(fig_LRliquiditytable, use_container_width=True)
+LRliquiditytable_placeholder.dataframe(df_LRliquiditytable)
+
+
+#FX Data
+FXCARB_value = "{:,.2f}".format(outputs['FX_CAR'][0]['Baseline'])
+FXCARPS_value = "{:,.2f}".format(outputs['FX_CAR'][0]['Post Shock'])
+FXCARdelta = "{:,.2f}".format(outputs['FX_CAR'][0]['Post Shock'] - outputs['FX_CAR'][0]['Baseline'])
+
+FXPOS_value = "{:,.2f}".format(outputs['FX_NetPosition'])
+FXLoan_value = "{:,.2f}".format(outputs['FX_Loans'])
+
+
+FXCARB.metric(label="CAR Baseline", value=FXCARB_value)
+FXCARPS.metric(label="CAR Post-Shock", value=FXCARPS_value, delta=FXCARdelta)
+FXPOS.metric(label="Net Open FX Pos (m$)", value=FXPOS_value)
+FXLoan.metric(label="FX Loans (m$)", value=FXLoan_value)
+
+df_FXassetvaluesdirect = pd.DataFrame(outputs['FX_AssetValues'])
+fig_FXassetvaluesdirect = go.Figure()
+config_FXassetvaluesdirect = {
+    'label_column': 'Asset Values - Direct FX (m$)',
+    'title': '      Asset Values - Direct FX (m$)'
+}
+df_FXassetvaluesindirect = pd.DataFrame(outputs['FX_AssetValues2'])
+fig_FXassetvaluesindirect = go.Figure()
+config_FXassetvaluesindirect = {
+    'label_column': 'Asset Values - Indirect FX (m$)',
+    'title': '      Asset Values - Indirect FX (m$)'
+}
+generate_bar_chart(fig_FXassetvaluesdirect, df_FXassetvaluesdirect, config_FXassetvaluesdirect)
+FXDirect_placeholder.plotly_chart(fig_FXassetvaluesdirect, use_container_width=True)
+
+generate_bar_chart(fig_FXassetvaluesindirect, df_FXassetvaluesindirect, config_FXassetvaluesindirect)
+FXIndirect_placeholder.plotly_chart(fig_FXassetvaluesindirect, use_container_width=True)
+
+
