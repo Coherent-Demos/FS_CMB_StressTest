@@ -114,32 +114,32 @@ with tab1:
    st.text("‎")
    st.write('### About Stress Testing')
    with st.expander("**Why Stress Testing Liquidity is Critical Before a Potential Recession**", expanded=True):
-      col1, col2 = st.columns([1,8])
+      col1, col2 = st.columns([8,1])
       with col1: 
-         image = "article-1.png"
-         st.image(image, caption='', use_column_width=True)
-      with col2:   
          st.write('Testing model simulations are essential for helping banks and financial institutions test different scenarios to evaluate how changes in market conditions, such as interest rates and inflation assumptions, can impact a bank’s investment decisions, balance sheet, income statement, or liquidity...')
          st.write('[Read More](https://www.coherent.global/blog/why-stress-testing-liquidity-is-critical-before-a-recession)')
-   with st.expander("**Why Testing Model Simulations are Critical for Reducing Risk**", expanded=True):
-      col1, col2 = st.columns([1,8])
-      with col1: 
-         image = "article-2.png"
-         st.image(image, caption='', use_column_width=True)
       with col2:   
+         image = "article-1.png"
+         st.image(image, caption='')
+   with st.expander("**Why Testing Model Simulations are Critical for Reducing Risk**", expanded=True):
+      col1, col2 = st.columns([8,1])
+      with col1: 
          st.write('While many major banks recently reported positive earnings announcements, the news certainly hasn’t been all good. Numerous market indicators point to possible signs of a recession. Some banks are proactively taking steps to prepare for a potential recession and it’s critical that all banks take a closer look at enterprise-wide liquidity...')
          st.write('[Read More](https://www.coherent.global/blog/testing-model-simulations-risk-reduction)')
+      with col2:   
+         image = "article-2.png"
+         st.image(image, caption='')
 
    st.text("‎")
    st.write('### About Coherent')
    with st.expander("**Coherent for Banking and Capital Markets**", expanded=True):
-      col1, col2 = st.columns([1,8])
-      with col1: 
-         image = "coherent-logo.png"
-         st.image(image, caption='', use_column_width=False)
-      with col2:   
+      col1, col2 = st.columns([8,1])
+      with col1:   
          st.write('Coherent transforms businesses, starting with a single cell. We unify developers and non-developers to redefine how business and IT teams work together. We transform spreadsheets into APIs, end-users into developers, and risk into control.')
-         st.write('[Learn More About Coherent for Banking and Capital Markets](https://www.coherent.global/)  /  [Learn More About Coherent](https://www.coherent.global/)')
+         st.write('[Learn More About Coherent for Banking and Capital Markets](https://resources.coherent.global/znglist/banking-and-capital-markets/?c=cG9zdDo5OTE4OTY%3D)  /  [Learn More About Coherent](https://www.coherent.global/)')
+      with col2: 
+         image = "coherent-logo-round.png"
+         st.image(image, caption='')
 
 
 with tab2:   
@@ -176,20 +176,42 @@ with tab2:
          st.info("Assets")
          assets_placeholder = st.empty()
       with col12:
-         st.info("Loans") 
+         st.info("Loans*") 
          loans_placeholder = st.empty()
       with col13:
          st.info("Liabilities")
          liabilities_placeholder = st.empty()
+   st.markdown('> *Loan data simulated with Spark*')      
+
+   st.text("‎")
+   st.write('***')
+   col1, col2, col3, col4 = st.columns([1,1,1,1])
+   with col1:
+      st.write("**Data Source 1: Company Info**")
+      st.write("https://pypi.org/project/yfinance/")
+      DATA_SOURCE3 = st.empty()
+      col11, col12 = st.columns([1,1])
+   with col2:
+      st.write("**Data Source 2: Balance Sheet**")
+      st.write("https://site.financialmodelingprep.com/")
+      DATA_SOURCE1 = st.empty()
+   with col3:
+      st.write("**Data Source 3: Income Statement**")
+      st.write("https://site.financialmodelingprep.com/")
+      DATA_SOURCE2 = st.empty()
+   with col4:
+      st.write("**Consolidated Data**")
+      st.write("Spark Model")
+      DATA_CONSOLIDATION = st.empty()
 
 with tab3:
    st.success(":gear:  **Model 2 - Risk Simulation:** Here are are using consolidated bank data from **Model 1** to test different Risk scenarios. For example, an increase in NPL for the bank. Because this is API-driven, we get instant response by changing any of the scenario variables. Below you will see 4 types of risk modelling where you can adjust the scenarios in real time.")
 
    st.text("‎")
    with st.expander("**Credit Risk**"):
-      tab1, tab2, tab3, tab4 = st.tabs(['Underprovisioning', 'Increase in NPL', 'Sectoral Shock to NPL', 'Large Exposure'])
+      tab31, tab32, tab33, tab34 = st.tabs(['Underprovisioning', 'Increase in NPL', 'Sectoral Shock to NPL', 'Large Exposure'])
 
-      with tab1:
+      with tab31:
          st.text("‎") 
          col20, col21, col22, col23, col24, = st.columns([1, 12, 2, 32, 1])
          with col20:
@@ -226,7 +248,7 @@ with tab3:
          with col24:
             st.text("‎") 
 
-      with tab2:
+      with tab32:
          st.text("‎") 
          col20, col21, col22, col23, col24, = st.columns([1, 12, 2, 32, 1])
          with col20:
@@ -254,7 +276,7 @@ with tab3:
             CR2assetvalues_placeholder = st.empty()
 
 
-      with tab3:
+      with tab33:
          st.text("‎") 
          col20, col21, col22, col23, col24, = st.columns([1, 12, 2, 32, 1])
          with col20:
@@ -304,7 +326,7 @@ with tab3:
             st.markdown('***')
             CR3assetvalues_placeholder = st.empty()
 
-      with tab4:
+      with tab34:
          st.text("‎") 
          col20, col21, col22, col23, col24, = st.columns([1, 12, 2, 32, 1])
          with col20:
@@ -400,8 +422,6 @@ with tab3:
          st.error("under construction")
 
 with tab4:
-   st.write('API details')
-   API_OUTPUT = st.empty()
 
    CR1 = {
        'substandardloans': substandardloans,
@@ -445,6 +465,46 @@ with tab4:
 
    alldata = callSparkModel(selectedbank, CR1, CR2, CR3, LR, CR4, FX)
    outputs = alldata.json()['response_data']['outputs']
+
+
+   st.write('API details')
+   col41, col42 = st.columns([1,1])
+   with col41:
+      with st.expander("**API Input**", expanded=True):
+         st.json({
+             "request_data": {
+                "inputs": {
+                  "Bank": selectedbank,
+                  "CR1_DoubtfulLoans": CR1['doubtfulloans'],
+                  "CR1_Haircut": CR1['haircut'],
+                  "CR1_LossLoans": CR1['lossloans'],
+                  "CR1_SubstandardLoans": CR1['substandardloans'],
+                  "CR2_IncreaseNPL": CR2['increaseNPL'],
+                  "CR2_ProvisioningNPL": CR2['provisionNPL'],
+                  "CR3Agri": CR3['Agri'],
+                  "CR3Const": CR3['Const'],
+                  "CR3Manu": CR3['Manu'],
+                  "CR3Nonbank": CR3['Nonbank'],
+                  "CR3Other": CR3['Other'],
+                  "CR3Provis": CR3['Provis'],
+                  "CR3Tour": CR3['Tour'],
+                  "CR3Trade": CR3['Trade'],
+                  "CR4_LEtoNPL": CR4['letonpl'],
+                  "CR4_Provisioning": CR4['leprovisioning'],
+                  "FX_ChangeRate": FX['changerate'],
+                  "FX_NewNPL": FX['depreciationtonpl'],
+                  "FX_Provisioning": FX['fxprovisioning'],
+                  "LR_AssetsAvailable": LR['assetsavailable'],
+                  "LR_Domestic": LR['domesticcurrency'],
+                  "LR_Foreign": LR['foreigncurrency']
+                }
+             },
+              "request_meta": {
+              }
+          })
+   with col42:
+      with st.expander("**API Output**", expanded=True):
+         API_OUTPUT = st.empty()   
 
    #Assets Data
    TICKER_value = outputs["Ticker"]
@@ -495,6 +555,17 @@ with tab4:
        'label_column': 'Loan Values (m$)',
        'title': '      Loan Values (m$)'
    }
+
+   DATA_SOURCE1df = pd.DataFrame(outputs['DataSource1'])
+   DATA_SOURCE2df = pd.DataFrame(outputs['DataSource2'])
+   DATA_SOURCE3df = pd.DataFrame(outputs['DataSource3'])
+   DATA_CONSOLIDATIONdf = pd.DataFrame(outputs['DataCompiled'])
+
+   DATA_SOURCE1.dataframe(DATA_SOURCE1df)
+   DATA_SOURCE2.dataframe(DATA_SOURCE2df)
+   DATA_SOURCE3.dataframe(DATA_SOURCE3df)
+   DATA_CONSOLIDATION.dataframe(DATA_CONSOLIDATIONdf)
+
    generate_bar_chart(fig_CR1loanvalues, df_CR1loanvalues, config_CR1loanvalues)
    CR1loanvalues_placeholder.plotly_chart(fig_CR1loanvalues, use_container_width=True)
 
