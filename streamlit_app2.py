@@ -56,7 +56,7 @@ def callSparkModel(selectedbank, CR1, CR2, CR3, LR, CR4, FX):
     #    'x-synthetic-key': '302041c0-6c2b-4567-8b3a-ae21cbf9671c'
     # }
 
-    url = "https://excel.uat.us.coherent.global/coherent/api/v3/folders/Spark FE Demos/services/banking-stress-test-4/Execute"
+    url = "https://excel.uat.us.coherent.global/coherent/api/v3/folders/Spark FE Demos/services/banking-stress-test-3/Execute"
 
     headers = {
        'Content-Type': 'application/json',
@@ -65,7 +65,7 @@ def callSparkModel(selectedbank, CR1, CR2, CR3, LR, CR4, FX):
     }
 
     response = requests.request("POST", url, headers=headers, data=payload, allow_redirects=False) 
-    return response   
+    return response
 
 #Generate Charts
 def generate_pie_chart(fig, data_df, config):
@@ -109,7 +109,7 @@ tab1, tab2, tab3, tab4 = st.tabs(['Overview', 'Bank Data Modelling', 'Stess Test
 with tab1:
    st.text("‎")
    st.write('### About this demo')
-   st.markdown('This demo showcases different advanced ways to leverage Spark in banking and risk management:  \n* **Data Consolidation** - Taking banking data from different sources and creating a consolidated format  \n* **Interactive Simulation** - developing simulation models and testing with real input in real-time  \n* **Download the model** [here](https://spark.uat.us.coherent.global/coherent/products/Spark%20FE%20Demos/banking-stress-test-4/apiTester/test)')
+   st.markdown('This demo showcases different advanced ways to leverage Spark in banking and risk management:  \n* **Data Consolidation** - Taking banking data from different sources and creating a consolidated format  \n* **Interactive Simulation** - developing simulation models and testing with real input in real-time  \n* **Download the model** [here](https://github.com/Coherent-Demos/FS_CMB_StressTest/blob/main/banking-stress-test.xlsx)')
 
    st.text("‎")
    st.write('### About Stress Testing')
@@ -143,7 +143,7 @@ with tab1:
 
 
 with tab2:   
-   st.info(":information_source:  **Model 1 - Bank Data Consolidation:** Here we are using Spark to call 3 external sources (fiance data, balance sheet, income statement), then consolidate, enrich and format this data. With Spark we are able to model this transformation in any way we want, allowing us to combine data from multiple sources without extra data processing steps")
+   st.info(":information_source:  **Model 1 - Bank Data Consolidation:** Here we are using Spark to call 3 external sources (bank info, balance sheet, income statement), then consolidate, enrich and format this data. With Spark we are able to model this transformation in any way we want, allowing us to combine data from multiple sources without extra data processing steps")
 
    st.text("‎")
    defaultbank = 'Associated Banc-Corp'
@@ -176,29 +176,36 @@ with tab2:
          st.info("Assets")
          assets_placeholder = st.empty()
       with col12:
-         st.info("Loans") 
+         st.info("Loans*") 
          loans_placeholder = st.empty()
       with col13:
          st.info("Liabilities")
-         liabilities_placeholder = st.empty()      
+         liabilities_placeholder = st.empty()
+   st.markdown('> *Loan data simulated with Spark*')      
 
    st.text("‎")
-   st.write("**Data Source 1: Finance Book of Records (Loans & Deposits)**")
-   DATA_SOURCE3 = st.empty()
    st.write('***')
-   col1, col2, col3 = st.columns([1,1,1])
+   col1, col2, col3, col4 = st.columns([1,1,1,1])
    with col1:
-      st.write("**Data Source 2: Balance Sheet**")
-      DATA_SOURCE1 = st.empty()
+      st.write("**Data Source 1: Company Info**")
+      st.write("https://pypi.org/project/yfinance/")
+      DATA_SOURCE3 = st.empty()
+      col11, col12 = st.columns([1,1])
    with col2:
-      st.write("**Data Source 3: Income Statement**")
-      DATA_SOURCE2 = st.empty()
+      st.write("**Data Source 2: Balance Sheet**")
+      st.write("https://site.financialmodelingprep.com/")
+      DATA_SOURCE1 = st.empty()
    with col3:
+      st.write("**Data Source 3: Income Statement**")
+      st.write("https://site.financialmodelingprep.com/")
+      DATA_SOURCE2 = st.empty()
+   with col4:
       st.write("**Consolidated Data**")
+      st.write("Spark Model")
       DATA_CONSOLIDATION = st.empty()
 
 with tab3:
-   st.success(":gear:  **Model 2 - Risk Simulation:** Here we are are using consolidated bank data from **Model 1** to test different Risk scenarios. For example, an increase in NPL for the bank. Because this is API-driven, we get instant response by changing any of the scenario variables. Below you will see 4 types of risk modelling where you can adjust the scenarios in real time.")
+   st.success(":gear:  **Model 2 - Risk Simulation:** Here are are using consolidated bank data from **Model 1** to test different Risk scenarios. For example, an increase in NPL for the bank. Because this is API-driven, we get instant response by changing any of the scenario variables. Below you will see 4 types of risk modelling where you can adjust the scenarios in real time.")
 
    st.text("‎")
    with st.expander("**Credit Risk**"):
@@ -551,8 +558,8 @@ with tab4:
 
    DATA_SOURCE1df = pd.DataFrame(outputs['DataSource1'])
    DATA_SOURCE2df = pd.DataFrame(outputs['DataSource2'])
-   DATA_SOURCE3df = pd.DataFrame(outputs['SampleFinanceBOR'])
-   DATA_CONSOLIDATIONdf = pd.DataFrame(outputs['bankdata'])
+   DATA_SOURCE3df = pd.DataFrame(outputs['DataSource3'])
+   DATA_CONSOLIDATIONdf = pd.DataFrame(outputs['DataCompiled'])
 
    DATA_SOURCE1.dataframe(DATA_SOURCE1df)
    DATA_SOURCE2.dataframe(DATA_SOURCE2df)
