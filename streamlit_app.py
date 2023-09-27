@@ -146,8 +146,9 @@ with tab2:
    st.info(":information_source:  **Model 1 - Bank Data Consolidation:** Here we are using Spark to call 3 external sources (fiance data, balance sheet, income statement), then consolidate, enrich and format this data. With Spark we are able to model this transformation in any way we want, allowing us to combine data from multiple sources without extra data processing steps")
 
    st.text("‎")
-   defaultbank = 'Citigroup Inc.'
-   selectedbank = st.selectbox('Choose a Bank', ['Associated Banc-Corp', 'Atlantic Union Bankshares Corporation', 'Banc of California Inc.', 'Bank of America Corporation', 'Bank of Hawaii Corporation', 'BankUnited Inc.', 'Bar Harbor Bankshares Inc.', 'Berkshire Hills Bancorp Inc.', 'Blue Ridge Bankshares Inc.', 'Byline Bancorp Inc.', 'Cadence Bank', 'Central Pacific Financial Corp', 'Citigroup Inc.', 'Citizens Financial Group Inc.', 'Comerica Incorporated', 'Community Bank System Inc.', 'Cullen/Frost Bankers Inc.', 'Customers Bancorp Inc', 'Evans Bancorp Inc.', 'F.N.B. Corporation', 'FB Financial Corporation', 'First Commonwealth Financial Corporation', 'First Horizon Corporation', 'Glacier Bancorp Inc.', 'Guaranty Bancshares Inc.', 'Hilltop Holdings Inc.', 'Home BancShares Inc.', 'JP Morgan Chase & Co.', 'KeyCorp', 'Live Oak Bancshares Inc.', 'M&T Bank Corporation', 'Metropolitan Bank Holding Corp.', 'National Bank Holdings Corporation', 'Nicolet Bankshares Inc.', 'Park National Corporation', 'PNC Financial Services Group Inc.', 'Prosperity Bancshares Inc.', 'Provident Financial Services Inc', 'Regions Financial Corporation', 'ServisFirst Bancshares Inc.', 'Synovus Financial Corp.', 'Tompkins Financial Corporation', 'Truist Financial Corporation', 'U.S. Bancorp', 'Webster Financial Corporation', 'Wells Fargo & Company', 'Western Alliance Bancorporation', 'York Community Bancorp Inc.'])
+   banks = ['Associated Banc-Corp', 'Atlantic Union Bankshares Corporation', 'Banc of California Inc.', 'Bank of America Corporation', 'Bank of Hawaii Corporation', 'BankUnited Inc.', 'Bar Harbor Bankshares Inc.', 'Berkshire Hills Bancorp Inc.', 'Blue Ridge Bankshares Inc.', 'Byline Bancorp Inc.', 'Cadence Bank', 'Central Pacific Financial Corp', 'Citigroup Inc.', 'Citizens Financial Group Inc.', 'Comerica Incorporated', 'Community Bank System Inc.', 'Cullen/Frost Bankers Inc.', 'Customers Bancorp Inc', 'Evans Bancorp Inc.', 'F.N.B. Corporation', 'FB Financial Corporation', 'First Commonwealth Financial Corporation', 'First Horizon Corporation', 'Glacier Bancorp Inc.', 'Guaranty Bancshares Inc.', 'Hilltop Holdings Inc.', 'Home BancShares Inc.', 'JP Morgan Chase & Co.', 'KeyCorp', 'Live Oak Bancshares Inc.', 'M&T Bank Corporation', 'Metropolitan Bank Holding Corp.', 'National Bank Holdings Corporation', 'Nicolet Bankshares Inc.', 'Park National Corporation', 'PNC Financial Services Group Inc.', 'Prosperity Bancshares Inc.', 'Provident Financial Services Inc', 'Regions Financial Corporation', 'ServisFirst Bancshares Inc.', 'Synovus Financial Corp.', 'Tompkins Financial Corporation', 'Truist Financial Corporation', 'U.S. Bancorp', 'Webster Financial Corporation', 'Wells Fargo & Company', 'Western Alliance Bancorporation', 'York Community Bancorp Inc.']
+   defaultbank = banks.index('Citigroup Inc.')
+   selectedbank = st.selectbox('Choose a Bank', banks, index=defaultbank)
    st.write('***')
    col1, col2, col3 = st.columns([1,2,5])
    with col1:
@@ -554,10 +555,10 @@ with tab4:
    DATA_SOURCE3df = pd.DataFrame(outputs['SampleFinanceBOR'])
    DATA_CONSOLIDATIONdf = pd.DataFrame(outputs['bankdata'])
 
-   DATA_SOURCE1.dataframe(DATA_SOURCE1df)
-   DATA_SOURCE2.dataframe(DATA_SOURCE2df)
-   DATA_SOURCE3.dataframe(DATA_SOURCE3df)
-   DATA_CONSOLIDATION.dataframe(DATA_CONSOLIDATIONdf)
+   DATA_SOURCE1.dataframe(DATA_SOURCE1df, use_container_width=True)
+   DATA_SOURCE2.dataframe(DATA_SOURCE2df, use_container_width=True)
+   DATA_SOURCE3.dataframe(DATA_SOURCE3df, use_container_width=True)
+   DATA_CONSOLIDATION.dataframe(DATA_CONSOLIDATIONdf, use_container_width=True)
 
    generate_bar_chart(fig_CR1loanvalues, df_CR1loanvalues, config_CR1loanvalues)
    CR1loanvalues_placeholder.plotly_chart(fig_CR1loanvalues, use_container_width=True)
@@ -684,4 +685,8 @@ with tab4:
    generate_bar_chart(fig_FXassetvaluesindirect, df_FXassetvaluesindirect, config_FXassetvaluesindirect)
    FXIndirect_placeholder.plotly_chart(fig_FXassetvaluesindirect, use_container_width=True)
 
+   displayOutput = outputs
+   displayOutput['SampleFinanceBOR'] = []
+   displayOutput['DataSource1'] = []
+   displayOutput['DataSource2'] = []
    API_OUTPUT.json(outputs)
